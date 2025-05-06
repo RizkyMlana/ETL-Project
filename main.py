@@ -6,7 +6,6 @@ def main():
     if fashion_data:
         df = pd.DataFrame(fashion_data)
         print(df)
-        export = df.to_csv('FashionData.csv')
     else:
         print("Tidak ada data yang ditemukan")
 
