@@ -52,5 +52,24 @@ def scrape_fashion_data(url):
         data.append(fashion_data)
     return data
 
+def scrape_multiple_pages(total_pages=50):
+    base_url = "https://fashion-studio.dicoding.dev"
+    all_data = []
+
+    for page in range(1, total_pages + 1):
+        if page == 1:
+            full_url = base_url
+        else:
+            full_url = f"{base_url}/page{page}"
+        
+        print(f"Scraping halaman {page} => {full_url}")
+        page_data = scrape_fashion_data(full_url)
+        
+        if page_data:
+            all_data.extend(page_data)
+        else:
+            print(f"Tidak ada data di halaman {page}")
+    
+    return [d for d in all_data if d is not None]
 
 
