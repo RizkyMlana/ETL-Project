@@ -1,0 +1,6 @@
+Menjalankan script 
+python main.py
+
+
+URL google sheet
+https://docs.google.com/spreadsheets/d/1Qsv91kSJO4WFB9H5UFzHkyoyKxN4dnwD7oWRfE9gZmA/edit?usp=sharing
