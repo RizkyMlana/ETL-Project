@@ -1,6 +1,14 @@
-Menjalankan script 
+# Menjalankan script 
 python main.py
 
 
-URL google sheet
+# Running test 
+pytest tests
+
+
+# Running coverage test
+coverage run -m tests
+
+
+# URL google sheet
 https://docs.google.com/spreadsheets/d/1Qsv91kSJO4WFB9H5UFzHkyoyKxN4dnwD7oWRfE9gZmA/edit?usp=sharing

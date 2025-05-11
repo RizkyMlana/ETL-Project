@@ -25,16 +25,20 @@ def clean_data(data):
     for column, patterns in dirty_patterns.items():
         df = df[~df[column].isin(patterns)]
     df = df.drop_duplicates(subset=['Title', 'Price', 'Rating', 'Gender'])
-    df = df.dropna(subset=['Title','Price','Rating','Gender'])
 
     df['Price'] = df['Price'].apply(convert_to_rupiah)
     df['Price'] = pd.to_numeric(df['Price'], errors='coerce')
-    df['Price'] = df['Price'].astype(float)
     df['Rating'] = pd.to_numeric(df['Rating'], errors='coerce')
     df['Gender'] = df['Gender'].str.strip()
     df['Size'] = df['Size'].str.strip().str.upper()
     df['Colors'] = pd.to_numeric(df['Colors'], errors='coerce')
+
+    df = df.dropna(subset=['Title','Price','Rating','Gender'])
     df['Colors'] = df['Colors'].astype(int)
+    df['Price'] = df['Price'].astype(float)
+    df['Colors'] = df['Colors'].astype(int)
+
+
     
     df = df.reset_index(drop=True)
     return df.to_dict(orient="records")

@@ -1,6 +1,7 @@
 import sys
 import os
 import requests
+# Melakukan path terhadap folder karena saat test utils tidak terdetect 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from unittest.mock import patch, Mock
@@ -14,9 +15,9 @@ from utils.extract import (extract_fashion_data,
 tag_html = '''
 <div class="collection-card">
   <div class="product-details">
-    <h3 class="product-title">T-shirt Keren</h3>
+    <h3 class="product-title">T-shirt Cihuuuy</h3>
     <span class="price">$199.99</span>
-    <p>Rating: 4.5⭐</p>
+    <p>Rating: 5⭐</p>
     <p>3 Colors</p>
     <p>Size: L</p>
     <p>Gender: Men</p>
@@ -26,19 +27,20 @@ tag_html = '''
 
 url = "https://fashion-studio.dicoding.dev"
 
-
+# Melakukan test dengan assert beberapa kolom yang akan menjadi feature di dataset
 def test_extract_fashion_data():
     soup = BeautifulSoup(tag_html, 'html.parser')
     card = soup.find('div', class_='collection-card')
     result = extract_fashion_data(card)
 
-    assert result["Title"] == "T-shirt Keren"
+    assert result["Title"] == "T-shirt Cihuuuy"
     assert result["Price"] == "$199.99"
-    assert result["Rating"] == 4.5
+    assert result["Rating"] == 5
     assert result["Colors"] == 3
     assert result["Size"] == "L"
     assert result["Gender"] == "Men"
 
+# Melakukan test fetch jika berhasil 
 def test_fetch_page_content_success():
     with patch('utils.extract.requests.get') as mock_get:
         mock_response = Mock()
@@ -48,23 +50,24 @@ def test_fetch_page_content_success():
 
         content = fetch_page_content(url)
         assert content == b'<html></html>'
-
+# Melakukan test fetch jika gagal
 def test_fetch_page_content_failure():
     with patch('utils.extract.requests.get') as mock_get:
         mock_get.side_effect = requests.exceptions.RequestException("Request failed")
         content = fetch_page_content(url)
         assert content is None
-
+# Melakukan test scrape 
 def test_scrape_fashion_data():
     with patch('utils.extract.fetch_page_content', return_value=tag_html.encode()):
         data = scrape_fashion_data(url)
         assert isinstance(data, list)
         assert len(data) == 1
-        assert data[0]['Title'] == "T-shirt Keren"
+        assert data[0]['Title'] == "T-shirt Cihuuuy"
         assert 'Timestamp' in data[0]
 
+# Melakukan test scrape multi pages
 def test_scrape_multiple_pages():
-    with patch('utils.extract.scrape_fashion_data', return_value=[{"Title": "Product", "Price": "16000", "Rating": 5, "Colors": 1, "Size": "M", "Gender": "Unisex", "Timestamp": "2024-01-01T00:00:00"}]):
+    with patch('utils.extract.scrape_fashion_data', return_value=[{"Title": "Product", "Price": 16000, "Rating": 5, "Colors": 1, "Size": "M", "Gender": "Unisex", "Timestamp": "2024-01-01T00:00:00"}]):
         result = scrape_multiple_pages(total_pages=3)
         assert isinstance(result, list)
         assert len(result) == 3
