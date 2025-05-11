@@ -15,6 +15,8 @@ def convert_to_rupiah(price):
 # Fungsi yang melakukan cleaning data seperti menghapus data yang memiliki dirty pattern, nan, duplicate dan mengubah tipe data yang sesuai
 def clean_data(data):
     df = pd.DataFrame(data)
+    if df.empty:
+        return []
     dirty_patterns = {
         "Title":["Unknown Product"],
         "Rating":["Invalid Rating / 5", "Not Rated"],
