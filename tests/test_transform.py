@@ -1,6 +1,5 @@
 import sys
 import os
-import numpy as np
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from utils.transform import clean_data, convert_to_rupiah
 
